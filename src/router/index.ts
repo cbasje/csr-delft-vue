@@ -5,7 +5,7 @@ import Tabs from '../views/Tabs.vue'
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    redirect: '/tabs/tab1'
+    redirect: '/tabs/forum'
   },
   {
     path: '/tabs/',
@@ -13,19 +13,35 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: '',
-        redirect: '/tabs/tab1'
+        redirect: '/tabs/forum'
       },
       {
-        path: 'tab1',
-        component: () => import('@/views/Tab1.vue')
+        path: 'forum/:topicID',
+        component: () => import('@/views/ForumTopic.vue')
       },
       {
-        path: 'tab2',
-        component: () => import('@/views/Tab2.vue')
+        path: 'forum',
+        component: () => import('@/views/Forum.vue')
       },
       {
-        path: 'tab3',
-        component: () => import('@/views/Tab3.vue')
+        path: 'events/:eventID',
+        component: () => import('@/views/EventDetail.vue')
+      },
+      {
+        path: 'events',
+        component: () => import('@/views/EventCalendar.vue')
+      },
+      {
+        path: 'members/:memberID',
+        component: () => import('@/views/MemberDetail.vue')
+      },
+      {
+        path: 'members',
+        component: () => import('@/views/MemberList.vue')
+      },
+      {
+        path: 'settings',
+        component: () => import('@/views/Settings.vue')
       }
     ]
   }
