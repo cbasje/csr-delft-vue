@@ -13,7 +13,7 @@
       </ion-header>
 
       <div class="container">
-        <ion-button color="danger" expand="block">
+        <ion-button @click="logout()" color="danger" expand="block">
           Uitloggen
         </ion-button>
       </div>
@@ -28,11 +28,12 @@ import { defineComponent } from 'vue';
 export default defineComponent({
   name: 'Settings',
   components: { IonHeader, IonToolbar, IonTitle, IonContent, IonPage, IonButton },
-//   methods: {
-//     logout() {
-//         // await this.authService.logout();
-//         // this.navCtrl.navigateRoot("/login")
-//     }
-//   }
+  methods: {
+    logout() {
+        // await this.authService.logout();
+        // this.navCtrl.navigateRoot("/login")
+        console.log('Log out');
+    }
+  }
 })
 </script>
