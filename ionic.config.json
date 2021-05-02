@@ -1,0 +1,7 @@
+{
+  "name": "csr-delft-vue",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
+}
