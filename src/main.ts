@@ -1,5 +1,5 @@
-import { createApp } from 'vue'
-import App from './App.vue'
+import { createApp } from 'vue';
+import App from './App.vue';
 import router from './router';
 
 import { IonicVue } from '@ionic/vue';
@@ -32,9 +32,9 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 
 const app = createApp(App)
-  .use(IonicVue)
-  .use(router);
-  
+	.use(IonicVue)
+	.use(router);
+
 router.isReady().then(() => {
-  app.mount('#app');
+	app.mount('#app');
 });

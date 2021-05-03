@@ -1,29 +1,42 @@
 <template>
-  <ion-page>
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>EventCalendar</ion-title>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content :fullscreen="true">
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large">EventCalendar</ion-title>
-        </ion-toolbar>
-      </ion-header>
-      
-      <ExploreContainer name="EventCalendar page" />
-    </ion-content>
-  </ion-page>
+	<ion-page>
+		<ion-header>
+			<ion-toolbar>
+				<ion-title>EventCalendar</ion-title>
+			</ion-toolbar>
+		</ion-header>
+		<ion-content :fullscreen="true">
+			<ion-header collapse="condense">
+				<ion-toolbar>
+					<ion-title size="large">EventCalendar</ion-title>
+				</ion-toolbar>
+			</ion-header>
+
+			<ExploreContainer name="EventCalendar page" />
+		</ion-content>
+	</ion-page>
 </template>
 
 <script lang="ts">
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
+import {
+	IonPage,
+	IonHeader,
+	IonToolbar,
+	IonTitle,
+	IonContent,
+} from '@ionic/vue';
 import ExploreContainer from '@/components/ExploreContainer.vue';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: 'EventCalendar',
-  components: { ExploreContainer, IonHeader, IonToolbar, IonTitle, IonContent, IonPage }
-})
+	name: 'EventCalendar',
+	components: {
+		ExploreContainer,
+		IonHeader,
+		IonToolbar,
+		IonTitle,
+		IonContent,
+		IonPage,
+	},
+});
 </script>

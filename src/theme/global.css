@@ -1,12 +1,12 @@
 ion-list.md {
-    background: var(--ion-background-color);
+	background: var(--ion-background-color);
 }
 ion-list.md ion-item,
 ion-list.md ion-item-group > ion-item {
-    --background: var(--ion-background-color);
+	--background: var(--ion-background-color);
 }
 
 .loading {
-    text-align: center !important;
-    padding: 16px;
+	text-align: center !important;
+	padding: 16px;
 }
