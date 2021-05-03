@@ -79,7 +79,10 @@ export default defineComponent({
   },
   methods: {
     goToTopicDetail(topic: any) {
-      console.log(topic.titel);
+      // console.log(topic.titel);
+      const topicID = topic.id
+      this.$router.push({ path: `/tabs/forum/${topicID}` })
+      // this.$router.push({ name: 'forum', params: { topicID } })
     }
   }
 })

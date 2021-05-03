@@ -23,28 +23,28 @@ const routes: Array<RouteRecordRaw> = [
         redirect: '/tabs/forum'
       },
       {
-        path: 'forum/:topicID',
-        component: () => import('@/views/ForumTopic.vue')
-      },
-      {
         path: 'forum',
         component: () => import('@/views/Forum.vue')
       },
       {
-        path: 'events/:eventID',
-        component: () => import('@/views/EventDetail.vue')
+        path: 'forum/:topicID',
+        component: () => import('@/views/ForumTopic.vue')
       },
       {
         path: 'events',
         component: () => import('@/views/EventCalendar.vue')
       },
       {
-        path: 'members/:memberID',
-        component: () => import('@/views/MemberDetail.vue')
+        path: 'events/:eventID',
+        component: () => import('@/views/EventDetail.vue')
       },
       {
         path: 'members',
         component: () => import('@/views/MemberList.vue')
+      },
+      {
+        path: 'members/:memberID',
+        component: () => import('@/views/MemberDetail.vue')
       },
       {
         path: 'menu',
