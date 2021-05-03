@@ -17,7 +17,7 @@
           <ion-label>Leden</ion-label>
         </ion-tab-button>
         
-        <ion-tab-button tab="lustrum" href="/tabs/lustrum" style="--color-selected: red">
+        <ion-tab-button tab="lustrum" href="/tabs/lustrum" style="--color-selected: #6e1321">
           <ion-icon :icon="hourglass" />
           <ion-label>Lustrum</ion-label>
         </ion-tab-button>
