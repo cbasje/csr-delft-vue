@@ -43,14 +43,19 @@ import { defineComponent } from 'vue';
 import { useVuelidate } from '@vuelidate/core'
 import { required, helpers } from '@vuelidate/validators'
 
+import { Storage } from '@capacitor/storage';
+
 export default defineComponent({
   name: 'Login',
   components: { IonHeader, IonToolbar, IonTitle, IonContent, IonPage, IonItem, IonLabel, IonButton, IonInput },
   methods: {
-    login: function (e: Event) {
+    login: async function (e: Event) {
       e.preventDefault();
       
-      console.log('Login');
+      await Storage.set({
+        key: 'isAuthenticated',
+        value: 'true',
+      });
       
       // this.$router.push({ name: 'tabs/forum', params: { topicID } })
       this.$router.push('/tabs/forum')

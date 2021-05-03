@@ -13,7 +13,7 @@
       </ion-header>
 
       <div class="container">
-        <ion-button @click="logout()" color="danger" expand="block">
+        <ion-button @click="logout" color="danger" expand="block">
           Uitloggen
         </ion-button>
       </div>
@@ -25,14 +25,20 @@
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton } from '@ionic/vue';
 import { defineComponent } from 'vue';
 
+import { Storage } from '@capacitor/storage';
+
 export default defineComponent({
   name: 'Settings',
   components: { IonHeader, IonToolbar, IonTitle, IonContent, IonPage, IonButton },
   methods: {
-    logout() {
-        // await this.authService.logout();
-        // this.navCtrl.navigateRoot("/login")
-        console.log('Log out');
+    logout: async function () {
+        await Storage.set({
+          key: 'isAuthenticated',
+          value: 'false',
+        });
+        
+        // this.$router.push({ name: 'tabs/forum', params: { topicID } })
+        this.$router.push('/login')
     }
   }
 })

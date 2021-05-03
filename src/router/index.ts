@@ -3,6 +3,8 @@ import { RouteRecordRaw } from 'vue-router';
 import Tabs from '../views/Tabs.vue'
 import Login from '../views/Login.vue'
 
+import { Storage } from '@capacitor/storage';
+
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
@@ -55,6 +57,15 @@ const routes: Array<RouteRecordRaw> = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
+})
+// FIXME
+router.beforeEach(async (to, from, next) => {
+  const { value } = await Storage.get({ key: 'isAuthenticated' });
+  const isAuthenticated = value == 'true';
+  
+  // if (to.name !== 'Login' && !isAuthenticated) next({ name: 'Login' })
+  if (to.path !== '/login' && !isAuthenticated) next({ path: 'login' })
+  else next()
 })
 
 export default router

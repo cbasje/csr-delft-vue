@@ -1,6 +1,6 @@
 {
-  "appId": "io.ionic.starter",
-  "appName": "csr-delft-vue",
+  "appId": "nl.csrdelft.vue-app",
+  "appName": "C.S.R. Delft",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "dist",
