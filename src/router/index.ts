@@ -58,7 +58,7 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
-// FIXME
+// TODO
 router.beforeEach(async (to, from, next) => {
   const { value } = await Storage.get({ key: 'isAuthenticated' });
   const isAuthenticated = value == 'true';
