@@ -70,7 +70,11 @@ export default defineComponent({
 				`/forum/onderwerp/${this.topicID}#ongelezen`;
 			// FIXME
 			// this.urlService.open(url);
-			await Browser.open({ url: url });
+			await Browser.open({
+				url: url,
+				toolbarColor: '#FF0000',
+				presentationStyle: 'popover'
+			});
 		},
 	},
 });
