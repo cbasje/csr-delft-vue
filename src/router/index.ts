@@ -47,8 +47,8 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/MemberList.vue')
       },
       {
-        path: 'settings',
-        component: () => import('@/views/Settings.vue')
+        path: 'menu',
+        component: () => import('@/views/Menu.vue')
       },
       {
         path: 'lustrum',

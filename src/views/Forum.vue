@@ -25,7 +25,7 @@
               <p>
                 <strong>{{ topic.laatsteWijzigingNaam }}: </strong>
                 <!-- <ion-text class="ion-text-wrap" [innerHTML]="topic.laatste_post.tekst | bbStrip"></ion-text> -->
-                <ion-text>{{ topic.laatstePost.tekst }}</ion-text>
+                <ion-text v-html="topic.laatstePost.tekst"></ion-text>
               </p>
             </ion-label>
             <ion-text slot="end" :color="topic.ongelezen > 0 ? 'primary' : null">
@@ -78,7 +78,7 @@ export default defineComponent({
     }
   },
   methods: {
-    goToTopicDetail: function (topic: any) {
+    goToTopicDetail(topic: any) {
       console.log(topic.titel);
     }
   }

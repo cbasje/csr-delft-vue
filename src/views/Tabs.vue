@@ -22,9 +22,9 @@
           <ion-label>Lustrum</ion-label>
         </ion-tab-button>
         
-        <ion-tab-button tab="settings" href="/tabs/settings">
-          <ion-icon :icon="settings" />
-          <ion-label>Instellingen</ion-label>
+        <ion-tab-button tab="menu" href="/tabs/menu">
+          <ion-icon :icon="menu" />
+          <ion-label>Meer...</ion-label>
         </ion-tab-button>
       </ion-tab-bar>
     </ion-tabs>
@@ -33,7 +33,7 @@
 
 <script lang="ts">
 import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage } from '@ionic/vue';
-import { chatbubbles, calendar, people, settings, hourglass } from 'ionicons/icons';
+import { chatbubbles, calendar, people, menu, hourglass } from 'ionicons/icons';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
@@ -44,7 +44,7 @@ export default defineComponent({
       chatbubbles,
       calendar,
       people,
-      settings,
+      menu,
       hourglass
     }
   }

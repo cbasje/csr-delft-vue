@@ -2,13 +2,13 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Instellingen</ion-title>
+        <ion-title>Menu</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
       <ion-header collapse="condense">
         <ion-toolbar>
-          <ion-title size="large">Instellingen</ion-title>
+          <ion-title size="large">Menu</ion-title>
         </ion-toolbar>
       </ion-header>
 
@@ -28,10 +28,10 @@ import { defineComponent } from 'vue';
 import { Storage } from '@capacitor/storage';
 
 export default defineComponent({
-  name: 'Settings',
+  name: 'Menu',
   components: { IonHeader, IonToolbar, IonTitle, IonContent, IonPage, IonButton },
   methods: {
-    logout: async function() {
+    async logout() {
         await Storage.set({
           key: 'isAuthenticated',
           value: 'false',

@@ -49,8 +49,7 @@ export default defineComponent({
   name: 'Login',
   components: { IonHeader, IonToolbar, IonTitle, IonContent, IonPage, IonItem, IonLabel, IonButton, IonInput },
   methods: {
-    login: async function() {
-      
+    async login() {
       await Storage.set({
         key: 'isAuthenticated',
         value: 'true',
