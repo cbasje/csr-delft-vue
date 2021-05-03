@@ -49,6 +49,10 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: 'settings',
         component: () => import('@/views/Settings.vue')
+      },
+      {
+        path: 'lustrum',
+        component: () => import('@/views/Lustrum.vue')
       }
     ]
   }

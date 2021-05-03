@@ -9,7 +9,7 @@
 
       <div class="container">
         
-        <form @submit="login" method="post">
+        <form @submit.prevent="login" method="post">
           <p>Gebruik je lidnummer en wachtwoord van de stek om in te loggen.</p>
           <div class="form-group">
             <ion-item>
@@ -49,8 +49,7 @@ export default defineComponent({
   name: 'Login',
   components: { IonHeader, IonToolbar, IonTitle, IonContent, IonPage, IonItem, IonLabel, IonButton, IonInput },
   methods: {
-    login: async function (e: Event) {
-      e.preventDefault();
+    login: async function() {
       
       await Storage.set({
         key: 'isAuthenticated',

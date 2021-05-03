@@ -17,6 +17,11 @@
           <ion-label>Leden</ion-label>
         </ion-tab-button>
         
+        <ion-tab-button tab="lustrum" href="/tabs/lustrum" style="--color-selected: red">
+          <ion-icon :icon="hourglass" />
+          <ion-label>Lustrum</ion-label>
+        </ion-tab-button>
+        
         <ion-tab-button tab="settings" href="/tabs/settings">
           <ion-icon :icon="settings" />
           <ion-label>Instellingen</ion-label>
@@ -28,7 +33,7 @@
 
 <script lang="ts">
 import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage } from '@ionic/vue';
-import { chatbubbles, calendar, people, settings } from 'ionicons/icons';
+import { chatbubbles, calendar, people, settings, hourglass } from 'ionicons/icons';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
@@ -39,7 +44,8 @@ export default defineComponent({
       chatbubbles,
       calendar,
       people,
-      settings
+      settings,
+      hourglass
     }
   }
 })

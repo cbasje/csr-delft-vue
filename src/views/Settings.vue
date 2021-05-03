@@ -2,18 +2,18 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Settings</ion-title>
+        <ion-title>Instellingen</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
       <ion-header collapse="condense">
         <ion-toolbar>
-          <ion-title size="large">Settings</ion-title>
+          <ion-title size="large">Instellingen</ion-title>
         </ion-toolbar>
       </ion-header>
 
       <div class="container">
-        <ion-button @click="logout" color="danger" expand="block">
+        <ion-button @click="logout" color="danger">
           Uitloggen
         </ion-button>
       </div>
@@ -31,7 +31,7 @@ export default defineComponent({
   name: 'Settings',
   components: { IonHeader, IonToolbar, IonTitle, IonContent, IonPage, IonButton },
   methods: {
-    logout: async function () {
+    logout: async function() {
         await Storage.set({
           key: 'isAuthenticated',
           value: 'false',
