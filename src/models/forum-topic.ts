@@ -1,6 +1,6 @@
-import { DatumTijd } from 'src/app/models/datum-tijd';
-import { Rechten } from 'src/app/models/rechten';
-import { ForumPost } from '../posts/posts.model';
+import { DatumTijd } from "./datum-tijd";
+import { ForumPost } from "./forum-post";
+import { Rechten } from "./rechten";
 
 export interface ForumTopic {
   draad_id: number;
@@ -20,7 +20,7 @@ export interface ForumTopic {
   belangrijk: any;
   eerste_post_plakkerig: boolean;
   pagina_per_post: boolean;
-  lezers: Lezers;
+  // lezers: Lezers;
   deel: Deel;
   gedeeld_met_deel: any;
   ongelezen: number;
@@ -36,7 +36,7 @@ export interface Deel {
   rechten_posten: Rechten;
   volgorde: number;
   categorie: Categorie;
-  meldingen: Lezers;
+  // meldingen: Lezers;
 }
 
 export interface Categorie {
@@ -44,11 +44,12 @@ export interface Categorie {
   titel: Titel;
   rechten_lezen: Rechten;
   volgorde: number;
-  forum_delen: Lezers;
+  // forum_delen: Lezers;
 }
 
-export interface Lezers {
-}
+// FIXME
+// export interface Lezers {
+// }
 
 export enum Titel {
   GeloofVorming = "Geloof & Vorming",

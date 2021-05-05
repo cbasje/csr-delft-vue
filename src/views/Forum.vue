@@ -47,8 +47,7 @@
 							slot="end"
 							:color="topic.ongelezen > 0 ? 'primary' : null"
 						>
-							17:17
-							<!-- {{ topic.laatst_gewijzigd.date | dateCalendar: { sameDay: 'HH:mm', lastDay: 'HH:mm', lastWeek: 'eeeeee ee', sameElse: 'dd-MM-yy' } }} -->
+							{{ formattedDate(topic.laatstGewijzigd.date) }}
 						</ion-text>
 						<ion-badge slot="end" v-if="topic.ongelezen > 0">{{
 							topic.ongelezen
@@ -56,15 +55,18 @@
 					</ion-item>
 				</ion-list>
 
-				<div class="loading" v-if="topics.length == 0">
-					<ion-spinner></ion-spinner>
-				</div>
+				<template v-if="topics.length == 0">
+					<div class="loading">
+						<ion-spinner></ion-spinner>
+					</div>
+				</template>
 			</div>
 		</ion-content>
 	</ion-page>
 </template>
 
 <script lang="ts">
+import { ForumTopic } from '@/models/forum-topic';
 import {
 	IonPage,
 	IonHeader,
@@ -81,6 +83,9 @@ import {
 } from '@ionic/vue';
 import { star, lockClosed } from 'ionicons/icons';
 import { defineComponent } from 'vue';
+
+import dateFormat from '@/mixins/dateFormat';
+import { Timezone } from '@/models/datum-tijd';
 
 export default defineComponent({
 	name: 'Forum',
@@ -117,17 +122,25 @@ export default defineComponent({
 					laatstePost: {
 						tekst: 'Hoi',
 					},
+					laatstGewijzigd: {
+						date: '2018-04-04T16:00:00.000Z'
+					}
 				},
 			],
 		};
 	},
+    mixins: [dateFormat],
 	methods: {
-		goToTopicDetail(topic: any) {
+		goToTopicDetail(topic: ForumTopic) {
 			// console.log(topic.titel);
-			const topicID = topic.id;
+			const topicID = topic.draad_id;
 			this.$router.push({ path: `/tabs/forum/${topicID}` });
 			// this.$router.push({ name: 'forum', params: { topicID } })
 		},
-	},
+		formattedDate(dateString: string): string {
+            // From the mixin
+            return this.formatDate(dateString);
+        }
+	}
 });
 </script>

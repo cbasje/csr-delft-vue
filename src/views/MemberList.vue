@@ -44,7 +44,51 @@
 				</ion-toolbar>
 			</ion-header>
 
-			<ExploreContainer name="Members page" />
+			<!-- TODO: Do we want alphabet scroll? -->
+			<!-- <csr-alphabet-scroll ion-fixed></csr-alphabet-scroll> -->
+
+			<div class="container">
+				<!-- <div *ngIf="members$ | async as members"> -->
+
+				<ion-list class="member-list" v-if="members.length > 0">
+					<!-- <ion-item-group
+						v-for="group in members"
+						:key="group.name"
+						:class="'scroll-letter-' + group.name"
+					> -->
+					<ion-item-group
+						v-for="group in groupBy"
+						:key="group.name"
+						:class="'scroll-letter-' + group.name"
+					>
+						<ion-item-divider sticky>
+							<strong>{{ group.name }}</strong>
+						</ion-item-divider>
+
+						<ion-item
+							button
+							detail
+							v-for="member in group.elements"
+							:key="member.id"
+							@click="goToMemberDetail(member)"
+						>
+							<ion-label>
+								{{ member.voornaam }}
+								<strong
+									>{{ member.tussenvoegsel }}
+									{{ member.achternaam }}</strong
+								>
+							</ion-label>
+						</ion-item>
+					</ion-item-group>
+				</ion-list>
+
+				<template v-if="members.length == 0">
+					<div class="loading">
+						<ion-spinner></ion-spinner>
+					</div>
+				</template>
+			</div>
 		</ion-content>
 	</ion-page>
 </template>
@@ -57,27 +101,65 @@ import {
 	IonTitle,
 	IonSearchbar,
 	IonContent,
+	IonList,
+	IonItemGroup,
+	IonItemDivider,
+	IonItem,
+	IonLabel,
+	IonSpinner
 } from '@ionic/vue';
-import ExploreContainer from '@/components/ExploreContainer.vue';
 import { defineComponent } from 'vue';
 
 import { isPlatform } from '@ionic/vue';
+import { Member } from '@/models/member';
+
+export interface Group {
+	name: string;
+	elements: any[];
+}
+
+export interface Grouped {
+	[key: string]: Group;
+}
+
+function groupBy(member: Member) {
+	return member.achternaam.replace(/[a-z ']/g, '')[0];
+}
 
 export default defineComponent({
 	name: 'Members',
 	components: {
-		ExploreContainer,
 		IonHeader,
 		IonToolbar,
 		IonTitle,
 		IonSearchbar,
 		IonContent,
 		IonPage,
+		IonList,
+		IonItemGroup,
+		IonItemDivider,
+		IonItem,
+		IonLabel,
+		IonSpinner,
 	},
 	data() {
 		return {
 			searchQuery: '',
 			ios: isPlatform('ios'),
+			members: [
+				{
+					id: '1000',
+					voornaam: 'Jan',
+					tussenvoegsel: null,
+					achternaam: 'Lid',
+				},
+				{
+					id: '1717',
+					voornaam: 'Janine',
+					tussenvoegsel: null,
+					achternaam: 'Lid',
+				},
+			],
 		};
 	},
 	methods: {
@@ -87,6 +169,38 @@ export default defineComponent({
 
 			// this.store.dispatch(new members.SearchAction(query));
 		},
+		goToMemberDetail(member: Member) {
+			// console.log(topic.titel);
+			const memberID = member.id;
+			this.$router.push({ path: `/tabs/members/${memberID}` });
+			// this.$router.push({ name: 'forum', params: { topicID } })
+		},
+	},
+	computed: {
+		groupBy() {
+			const elements = this.members;
+			
+			if (!elements) {
+				return null;
+			}
+
+			const grouped: Grouped = elements.reduce(
+				(groups: Grouped, element: any) => {
+					const key = groupBy(element);
+					if (!groups[key]) {
+						groups[key] = {
+							name: key,
+							elements: []
+						};
+					}
+					groups[key].elements.push(element);
+					return groups;
+				},
+				{}
+			);
+
+			return Object.keys(grouped).map(key => grouped[key]);
+		}
 	},
 });
 </script>

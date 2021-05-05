@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 import { RouteRecordRaw } from 'vue-router';
-import Tabs from '../views/Tabs.vue';
-import Login from '../views/Login.vue';
+import Tabs from '@/views/Tabs.vue';
+import Login from '@/views/Login.vue';
 
 import { Storage } from '@capacitor/storage';
 
