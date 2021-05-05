@@ -85,7 +85,6 @@ import { star, lockClosed } from 'ionicons/icons';
 import { defineComponent } from 'vue';
 
 import dateFormat from '@/mixins/dateFormat';
-import { Timezone } from '@/models/datum-tijd';
 
 export default defineComponent({
 	name: 'Forum',
