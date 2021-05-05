@@ -7,16 +7,14 @@
 						defaultHref="/tabs/members"
 					></ion-back-button>
 				</ion-buttons>
-				<ion-title>
+				<ion-title v-if="member">
 					{{ member.naam.voornaam }} {{ member.naam.tussenvoegsel }}
 					{{ member.naam.achternaam }}
 				</ion-title>
+				<ion-title v-else> Lid {{ memberID }} </ion-title>
 				<!-- Show this or the FAB depending on platform but never on web -->
 				<ion-buttons slot="end" v-if="ios">
-					<ion-button
-						*ngIf="memberDetail$ | async as member"
-						(click)="save(member)"
-					>
+					<ion-button v-if="member" @click="saveContact(member)">
 						<ion-icon slot="icon-only" name="person-add"></ion-icon>
 					</ion-button>
 				</ion-buttons>
@@ -25,8 +23,8 @@
 
 		<ion-content>
 			<div class="container">
-				<!-- <ion-list v-if="memberDetail$ | async as member"> -->
 				<ion-list v-if="member">
+					<!-- <ion-list v-if="member"> -->
 					<ion-item>
 						<ion-avatar slot="start" @click="openImage(member)">
 							<img :src="imageUrl + member.pasfoto" />
@@ -153,7 +151,7 @@
 					horizontal="end"
 					slot="fixed"
 				>
-					<ion-fab-button v-if="member" @click="save(member)">
+					<ion-fab-button v-if="member" @click="saveContact(member)">
 						<ion-icon :icon="person - add"></ion-icon>
 					</ion-fab-button>
 				</ion-fab>
@@ -188,7 +186,8 @@ import { isPlatform } from '@ionic/vue';
 
 import dateFormat from '@/mixins/dateFormat';
 import mapsHref from '@/mixins/mapsHref';
-import { memberDetailMock } from '@/util/mock';
+import { mapActions, mapGetters } from 'vuex';
+import { useRoute } from 'vue-router';
 
 export default defineComponent({
 	name: 'Members',
@@ -210,17 +209,29 @@ export default defineComponent({
 		IonFab,
 		IonFabButton,
 	},
+	setup() {
+		const route = useRoute();
+		const { memberID } = route.params;
+		return {
+			memberID,
+			open,
+		};
+	},
 	data() {
 		return {
 			ios: isPlatform('ios'),
 			android: isPlatform('android'),
 			imageUrl: '',
-			member: memberDetailMock,
 			mail,
 			text,
 			call,
 			map,
 		};
+	},
+	async mounted() {
+		console.log(this.memberID);
+
+		await this.getSelectedMember(this.memberID);
 	},
 	mixins: [dateFormat, mapsHref],
 	methods: {
@@ -230,10 +241,22 @@ export default defineComponent({
 		openImage() {
 			// TODO
 		},
+		saveContact() {
+			// TODO
+		},
 		formattedDate(dateString: string): string {
 			// From the mixin
 			return this.formatDate(dateString);
 		},
+		...mapActions('members', {
+			getSelectedMember: 'getSelectedMember',
+		}),
+	},
+	computed: {
+		...mapGetters('members', {
+			member: 'selectedMember',
+			memberById: 'memberById',
+		}),
 	},
 });
 </script>

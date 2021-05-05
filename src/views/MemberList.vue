@@ -13,7 +13,6 @@
 					autocorrect="off"
 					enterkeyhint="search"
 					animated
-					v-model="searchQuery"
 					@ionInput="search($event)"
 				>
 					<!-- @ionBlur="stopSearchSoft()"
@@ -37,7 +36,6 @@
 						cancelButtonText="Annuleer"
 						showCancelButton="focus"
 						animated
-						v-model="searchQuery"
 						@ionInput="search($event)"
 					>
 					</ion-searchbar>
@@ -147,17 +145,19 @@ export default defineComponent({
 		return {
 			searchQuery: '',
 			ios: isPlatform('ios'),
+			members: []
 		};
 	},
 	async mounted() {
-		await this.fetchUsers();
+		await this.getMembers();
+		this.members = this.allMembers;
 	},
 	methods: {
 		search(event: Event) {
 			const query = (event.target as HTMLInputElement).value;
-			console.log(query);
+			// console.log(query);
 
-			// this.store.dispatch(new members.SearchAction(query));
+			this.members = this.searchMembers(query);
 		},
 		goToMemberDetail(member: Member) {
 			// console.log(topic.titel);
@@ -165,14 +165,14 @@ export default defineComponent({
 			this.$router.push({ path: `/tabs/members/${memberID}` });
 			// this.$router.push({ name: 'forum', params: { topicID } })
 		},
-		...mapActions("members", {
-			fetchUsers: "fetchUsers",
+		...mapActions('members', {
+			getMembers: 'getMembers',
 		}),
 	},
 	computed: {
 		groups() {
 			const elements = this.members;
-			
+
 			if (!elements) {
 				return null;
 			}
@@ -183,7 +183,7 @@ export default defineComponent({
 					if (!groups[key]) {
 						groups[key] = {
 							name: key,
-							elements: []
+							elements: [],
 						};
 					}
 					groups[key].elements.push(element);
@@ -192,10 +192,11 @@ export default defineComponent({
 				{}
 			);
 
-			return Object.keys(grouped).map(key => grouped[key]);
+			return Object.keys(grouped).map((key) => grouped[key]);
 		},
-		...mapGetters("members", {
-			members: "allMembers",
+		...mapGetters('members', {
+			allMembers: 'allMembers',
+			searchMembers: 'searchMembers'
 		}),
 	},
 });
