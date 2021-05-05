@@ -57,7 +57,7 @@
 						:class="'scroll-letter-' + group.name"
 					> -->
 					<ion-item-group
-						v-for="group in groupBy"
+						v-for="group in groups"
 						:key="group.name"
 						:class="'scroll-letter-' + group.name"
 					>
@@ -106,12 +106,13 @@ import {
 	IonItemDivider,
 	IonItem,
 	IonLabel,
-	IonSpinner
+	IonSpinner,
 } from '@ionic/vue';
 import { defineComponent } from 'vue';
 
 import { isPlatform } from '@ionic/vue';
 import { Member } from '@/models/member';
+import { mapActions, mapGetters } from 'vuex';
 
 export interface Group {
 	name: string;
@@ -146,21 +147,10 @@ export default defineComponent({
 		return {
 			searchQuery: '',
 			ios: isPlatform('ios'),
-			members: [
-				{
-					id: '1000',
-					voornaam: 'Jan',
-					tussenvoegsel: null,
-					achternaam: 'Lid',
-				},
-				{
-					id: '1717',
-					voornaam: 'Janine',
-					tussenvoegsel: null,
-					achternaam: 'Lid',
-				},
-			],
 		};
+	},
+	async mounted() {
+		await this.fetchUsers();
 	},
 	methods: {
 		search(event: Event) {
@@ -175,9 +165,12 @@ export default defineComponent({
 			this.$router.push({ path: `/tabs/members/${memberID}` });
 			// this.$router.push({ name: 'forum', params: { topicID } })
 		},
+		...mapActions("members", {
+			fetchUsers: "fetchUsers",
+		}),
 	},
 	computed: {
-		groupBy() {
+		groups() {
 			const elements = this.members;
 			
 			if (!elements) {
@@ -200,7 +193,10 @@ export default defineComponent({
 			);
 
 			return Object.keys(grouped).map(key => grouped[key]);
-		}
+		},
+		...mapGetters("members", {
+			members: "allMembers",
+		}),
 	},
 });
 </script>

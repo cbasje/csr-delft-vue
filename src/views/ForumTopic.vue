@@ -64,9 +64,8 @@ export default defineComponent({
 	},
 	methods: {
 		async viewExternal() {
-			console.log(process.env.VUE_APP_STEK_URL);
 			const url =
-				process.env.VUE_APP_STEK_URL +
+				process.env.VUE_APP_SITE_URL +
 				`/forum/onderwerp/${this.topicID}#ongelezen`;
 			// FIXME
 			// this.urlService.open(url);

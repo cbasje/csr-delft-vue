@@ -188,6 +188,7 @@ import { isPlatform } from '@ionic/vue';
 
 import dateFormat from '@/mixins/dateFormat';
 import mapsHref from '@/mixins/mapsHref';
+import { memberDetailMock } from '@/util/mock';
 
 export default defineComponent({
 	name: 'Members',
@@ -214,36 +215,11 @@ export default defineComponent({
 			ios: isPlatform('ios'),
 			android: isPlatform('android'),
 			imageUrl: '',
+			member: memberDetailMock,
 			mail,
 			text,
 			call,
 			map,
-			member: {
-				id: '1717',
-				naam: {
-					voornaam: 'Janine',
-					tussenvoegsel: null,
-					achternaam: 'Lid',
-					formeel: 'Ama. Lid',
-				},
-				pasfoto: 'pasfoto/1717.jpg',
-				geboortedatum: '2018-04-04T16:00:00.000Z',
-				email: 'janinelid@csrdelft.nl',
-				mobiel: '123456789',
-				huis: {
-					naam: 'Confide',
-					adres: 'Oude Delft 9',
-					postcode: '2611 BA',
-					woonplaats: 'Delft',
-					land: 'The Netherlands',
-				},
-				studie: {
-					naam: 'Education',
-					sinds: 2000,
-				},
-				lichting: 2011,
-				verticale: 'Group',
-			},
 		};
 	},
 	mixins: [dateFormat, mapsHref],
@@ -252,7 +228,7 @@ export default defineComponent({
 			return `${pre}:${url}`;
 		},
 		openImage() {
-			//
+			// TODO
 		},
 		formattedDate(dateString: string): string {
 			// From the mixin

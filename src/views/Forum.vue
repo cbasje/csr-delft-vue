@@ -32,14 +32,14 @@
 							v-if="topic.gesloten"
 						></ion-icon>
 						<ion-label class="ion-text-wrap">
-							<h2>{{ topic.titel }}</h2>
+							<h3>{{ topic.titel }}</h3>
 							<p>
-								<strong
-									>{{ topic.laatsteWijzigingNaam }}:
+								<strong>
+									{{ topic.laatste_wijziging_naam }}:
 								</strong>
 								<!-- <ion-text class="ion-text-wrap" [innerHTML]="topic.laatste_post.tekst | bbStrip"></ion-text> -->
 								<ion-text
-									v-html="topic.laatstePost.tekst"
+									v-html="topic.laatste_post.tekst"
 								></ion-text>
 							</p>
 						</ion-label>
@@ -47,11 +47,12 @@
 							slot="end"
 							:color="topic.ongelezen > 0 ? 'primary' : null"
 						>
-							{{ formattedDate(topic.laatstGewijzigd.date) }}
+							<!-- Date from the mixin -->
+							{{ formatDate(topic.laatst_gewijzigd.date) }}
 						</ion-text>
-						<ion-badge slot="end" v-if="topic.ongelezen > 0">{{
-							topic.ongelezen
-						}}</ion-badge>
+						<ion-badge slot="end" v-if="topic.ongelezen > 0">
+							{{ topic.ongelezen }}
+						</ion-badge>
 					</ion-item>
 				</ion-list>
 
@@ -86,6 +87,8 @@ import { defineComponent } from 'vue';
 
 import dateFormat from '@/mixins/dateFormat';
 
+import { topicsMock } from '@/util/mock';
+
 export default defineComponent({
 	name: 'Forum',
 	components: {
@@ -110,22 +113,7 @@ export default defineComponent({
 	},
 	data() {
 		return {
-			topics: [
-				{
-					id: 0,
-					belangrijk: false,
-					gesloten: false,
-					ongelezen: 17,
-					titel: 'Titel',
-					laatsteWijzigingNaam: 'Ama. Lid',
-					laatstePost: {
-						tekst: 'Hoi',
-					},
-					laatstGewijzigd: {
-						date: '2018-04-04T16:00:00.000Z'
-					}
-				},
-			],
+			topics: topicsMock,
 		};
 	},
     mixins: [dateFormat],
@@ -135,11 +123,7 @@ export default defineComponent({
 			const topicID = topic.draad_id;
 			this.$router.push({ path: `/tabs/forum/${topicID}` });
 			// this.$router.push({ name: 'forum', params: { topicID } })
-		},
-		formattedDate(dateString: string): string {
-            // From the mixin
-            return this.formatDate(dateString);
-        }
+		}
 	}
 });
 </script>
