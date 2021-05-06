@@ -7,14 +7,26 @@
 						defaultHref="/tabs/members"
 					></ion-back-button>
 				</ion-buttons>
-				<ion-title v-if="member">
-					{{ member.naam.voornaam }} {{ member.naam.tussenvoegsel }}
-					{{ member.naam.achternaam }}
+
+				<!-- While memberDetail is loading, show the data loaded in MemberList.vue -->
+				<ion-title v-if="memberDetail">
+					{{ memberDetail.naam.voornaam }}
+					{{ memberDetail.naam.tussenvoegsel }}
+					{{ memberDetail.naam.achternaam }}
+				</ion-title>
+				<ion-title v-else-if="member">
+					{{ member.voornaam }}
+					{{ member.tussenvoegsel }}
+					{{ member.achternaam }}
 				</ion-title>
 				<ion-title v-else> Lid {{ memberID }} </ion-title>
+
 				<!-- Show this or the FAB depending on platform but never on web -->
 				<ion-buttons slot="end" v-if="ios">
-					<ion-button v-if="member" @click="saveContact(member)">
+					<ion-button
+						v-if="memberDetail"
+						@click="saveContact(memberDetail)"
+					>
 						<ion-icon slot="icon-only" :icon="personAdd"></ion-icon>
 					</ion-button>
 				</ion-buttons>
@@ -23,26 +35,29 @@
 
 		<ion-content>
 			<div class="container">
-				<ion-list v-if="member">
-					<!-- <ion-list v-if="member"> -->
+				<ion-list v-if="memberDetail">
+					<!-- <ion-list v-if="memberDetail"> -->
 					<ion-item>
-						<ion-avatar slot="start" @click="openImage(member)">
-							<img :src="imageUrl + member.pasfoto" />
+						<ion-avatar
+							slot="start"
+							@click="openImage(memberDetail)"
+						>
+							<img :src="imageUrl + memberDetail.pasfoto" />
 						</ion-avatar>
 						<ion-label>
-							<h3>{{ member.naam.formeel }}</h3>
-							<p>{{ member.id }}</p>
+							<h3>{{ memberDetail.naam.formeel }}</h3>
+							<p>{{ memberDetail.id }}</p>
 						</ion-label>
 					</ion-item>
 
 					<ion-item
 						button
-						:href="getSafeUrl('mailto', member.email)"
+						:href="getSafeUrl('mailto', memberDetail.email)"
 						detail="false"
 					>
 						<ion-label>
 							<p>e-mail</p>
-							<h2>{{ member.email }}</h2>
+							<h2>{{ memberDetail.email }}</h2>
 						</ion-label>
 						<ion-icon
 							:icon="mail"
@@ -54,11 +69,11 @@
 					<ion-item detail="false">
 						<ion-label>
 							<p>mobiel</p>
-							<h2>{{ member.mobiel }}</h2>
+							<h2>{{ memberDetail.mobiel }}</h2>
 						</ion-label>
 						<ion-buttons slot="end">
 							<ion-button
-								:href="getSafeUrl('sms', member.mobiel)"
+								:href="getSafeUrl('sms', memberDetail.mobiel)"
 							>
 								<ion-icon
 									:icon="text"
@@ -67,7 +82,7 @@
 								></ion-icon>
 							</ion-button>
 							<ion-button
-								:href="getSafeUrl('tel', member.mobiel)"
+								:href="getSafeUrl('tel', memberDetail.mobiel)"
 							>
 								<ion-icon
 									:icon="call"
@@ -82,18 +97,20 @@
 					<ion-item
 						button
 						v-mapsHref="
-							member.huis.adres + ', ' + member.huis.woonplaats
+							memberDetail.huis.adres +
+								', ' +
+								memberDetail.huis.woonplaats
 						"
 						target="_blank"
 						detail="false"
 					>
 						<ion-label>
-							<p>{{ member.huis.naam || 'adres' }}</p>
+							<p>{{ memberDetail.huis.naam || 'adres' }}</p>
 							<h2>
-								{{ member.huis.adres }}<br />
-								{{ member.huis.postcode }}
-								{{ member.huis.woonplaats }}<br />
-								{{ member.huis.land }}
+								{{ memberDetail.huis.adres }}<br />
+								{{ memberDetail.huis.postcode }}
+								{{ memberDetail.huis.woonplaats }}<br />
+								{{ memberDetail.huis.land }}
 							</h2>
 						</ion-label>
 						<ion-icon
@@ -107,7 +124,7 @@
 						<ion-label>
 							<p>verjaardag</p>
 							<h2>
-								{{ formattedDate(member.geboortedatum) }}
+								{{ formattedDate(memberDetail.geboortedatum) }}
 							</h2>
 						</ion-label>
 					</ion-item>
@@ -115,14 +132,14 @@
 					<ion-item>
 						<ion-label>
 							<p>lichting</p>
-							<h2>{{ member.lichting }}</h2>
+							<h2>{{ memberDetail.lichting }}</h2>
 						</ion-label>
 					</ion-item>
 
 					<ion-item>
 						<ion-label>
 							<p>verticale</p>
-							<h2>{{ member.verticale }}</h2>
+							<h2>{{ memberDetail.verticale }}</h2>
 						</ion-label>
 					</ion-item>
 
@@ -130,15 +147,15 @@
 						<ion-label>
 							<p>studie</p>
 							<h2>
-								{{ member.studie.naam }} ({{
-									member.studie.sinds
+								{{ memberDetail.studie.naam }} ({{
+									memberDetail.studie.sinds
 								}})
 							</h2>
 						</ion-label>
 					</ion-item>
 				</ion-list>
 
-				<template v-if="!member">
+				<template v-if="!memberDetail">
 					<div class="loading">
 						<ion-spinner></ion-spinner>
 					</div>
@@ -151,7 +168,10 @@
 					horizontal="end"
 					slot="fixed"
 				>
-					<ion-fab-button v-if="member" @click="saveContact(member)">
+					<ion-fab-button
+						v-if="memberDetail"
+						@click="saveContact(memberDetail)"
+					>
 						<ion-icon :icon="personAdd"></ion-icon>
 					</ion-fab-button>
 				</ion-fab>
@@ -185,7 +205,7 @@ import { defineComponent } from 'vue';
 import { isPlatform } from '@ionic/vue';
 
 import dateFormat from '@/mixins/dateFormat';
-import mapsHref from '@/mixins/mapsHref';
+import mapsHref from '@/mixins/directives/mapsHref';
 import { mapActions, mapGetters } from 'vuex';
 import { useRoute } from 'vue-router';
 
@@ -230,9 +250,8 @@ export default defineComponent({
 		};
 	},
 	async mounted() {
-		console.log(this.memberID);
-
-		await this.getSelectedMember(this.memberID);
+		await this.selectMember(this.memberID);
+		await this.loadSelectedMember();
 	},
 	mixins: [dateFormat, mapsHref],
 	methods: {
@@ -250,13 +269,14 @@ export default defineComponent({
 			return this.formatDate(dateString);
 		},
 		...mapActions('members', {
-			getSelectedMember: 'getSelectedMember',
+			selectMember: 'selectMember',
+			loadSelectedMember: 'loadSelectedMember',
 		}),
 	},
 	computed: {
 		...mapGetters('members', {
-			member: 'selectedMember',
-			memberById: 'memberById',
+			member: 'getSelectedMember',
+			memberDetail: 'getSelectedMemberDetail',
 		}),
 	},
 });

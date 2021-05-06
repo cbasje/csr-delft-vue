@@ -1,6 +1,6 @@
-import { DatumTijd } from "./datum-tijd";
-import { ForumPost } from "./forum-post";
-import { Rechten } from "./rechten";
+import { DatumTijd } from "../../models/datum-tijd";
+import { ForumPost } from "../posts/posts";
+import { Rechten } from "../../models/rechten";
 
 export interface ForumTopic {
   draad_id: number;

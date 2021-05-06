@@ -1,5 +1,5 @@
-import { DatumTijd } from "./datum-tijd";
-import { ForumTopic } from "./forum-topic";
+import { DatumTijd } from "../../models/datum-tijd";
+import { ForumTopic } from "../topics/topics.model";
 
 export interface ForumPost {
   post_id: number;

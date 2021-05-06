@@ -72,10 +72,10 @@
 						>
 							<ion-label>
 								{{ member.voornaam }}
-								<strong
-									>{{ member.tussenvoegsel }}
-									{{ member.achternaam }}</strong
-								>
+								<strong>
+									{{ member.tussenvoegsel }}
+									{{ member.achternaam }}
+								</strong>
 							</ion-label>
 						</ion-item>
 					</ion-item-group>
@@ -109,7 +109,7 @@ import {
 import { defineComponent } from 'vue';
 
 import { isPlatform } from '@ionic/vue';
-import { Member } from '@/models/member';
+import { Member } from '@/store/members/members.model';
 import { mapActions, mapGetters } from 'vuex';
 
 export interface Group {
@@ -145,27 +145,26 @@ export default defineComponent({
 		return {
 			searchQuery: '',
 			ios: isPlatform('ios'),
-			members: []
 		};
 	},
 	async mounted() {
-		await this.getMembers();
-		this.members = this.allMembers;
+		await this.loadMembers();
 	},
 	methods: {
 		search(event: Event) {
 			const query = (event.target as HTMLInputElement).value;
 
-			this.members = this.searchMembers(query);
+			this.searchAction(query);
 		},
 		goToMemberDetail(member: Member) {
 			const memberID = member.id;
-			
+
 			this.$router.push({ path: `/tabs/members/${memberID}` });
 			// this.$router.push({ name: 'forum', params: { topicID } })
 		},
 		...mapActions('members', {
-			getMembers: 'getMembers',
+			loadMembers: 'loadMembers',
+			searchAction: 'search'
 		}),
 	},
 	computed: {
@@ -194,8 +193,7 @@ export default defineComponent({
 			return Object.keys(grouped).map((key) => grouped[key]);
 		},
 		...mapGetters('members', {
-			allMembers: 'allMembers',
-			searchMembers: 'searchMembers'
+			members: 'getQueryResults'
 		}),
 	},
 });

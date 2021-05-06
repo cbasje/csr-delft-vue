@@ -1,5 +1,5 @@
-import { DatumTijd } from "./datum-tijd";
-import { Rechten } from "./rechten";
+import { DatumTijd } from "../../models/datum-tijd";
+import { Rechten } from "../../models/rechten";
 
 export interface Event {
   item_id?: number;

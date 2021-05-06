@@ -1,5 +1,5 @@
 import { createStore } from 'vuex';
-import membersModule from './modules/members';
+import membersModule from './members/members';
 
 const store = createStore({
 	modules: {

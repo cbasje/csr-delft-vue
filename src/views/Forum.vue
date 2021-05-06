@@ -67,7 +67,7 @@
 </template>
 
 <script lang="ts">
-import { ForumTopic } from '@/models/forum-topic';
+import { ForumTopic } from '@/store/topics/topics.model';
 import {
 	IonPage,
 	IonHeader,
