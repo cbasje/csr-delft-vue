@@ -7,25 +7,21 @@ export interface State {
 	detailIds: string[];
 	detailEntities: { [id: string]: MemberDetail };
 	query: string | null;
-	selectedMemberId: string | null;
+	selectedId: string | null;
 }
 
-// const state = () => (<State>{
-// 	allMembers: [],
-// 	selectedMember: null,
-// });
 const state = () => ({
 	ids: [],
 	entities: {},
 	detailIds: [],
 	detailEntities: {},
 	query: null,
-	selectedMemberId: null
+	selectedId: null
 } as State);
 
 const getters = {
 	getAllMembers(state: any) {
-		return state.entities;
+		return state.ids.map((id: string) => state.entities[id]);
 	},
 	getSelectedMember(state: any) {
 		return (state.selectedMemberId && state.entities[state.selectedMemberId]) || null;

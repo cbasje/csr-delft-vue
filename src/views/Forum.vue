@@ -14,6 +14,9 @@
 
 			<div class="container">
 				<!-- <div *ngIf="topics$ | async as topics"> -->
+				<ion-refresher slot="fixed" @ionRefresh="doRefresh($event)">
+					<ion-refresher-content></ion-refresher-content>
+				</ion-refresher>
 
 				<ion-list v-if="topics.length > 0">
 					<ion-item
@@ -81,13 +84,21 @@ import {
 	IonText,
 	IonBadge,
 	IonSpinner,
+	IonRefresher,
+	IonRefresherContent
 } from '@ionic/vue';
 import { star, lockClosed } from 'ionicons/icons';
 import { defineComponent } from 'vue';
 
 import dateFormat from '@/mixins/dateFormat';
 
-import { topicsMock } from '@/util/mock';
+import { mapActions, mapGetters } from 'vuex';
+
+interface RefreshEvent {
+	target: {
+		complete: Function;
+	};
+}
 
 export default defineComponent({
 	name: 'Forum',
@@ -104,6 +115,8 @@ export default defineComponent({
 		IonText,
 		IonBadge,
 		IonSpinner,
+		IonRefresher,
+		IonRefresherContent
 	},
 	setup() {
 		return {
@@ -111,19 +124,37 @@ export default defineComponent({
 			lockClosed,
 		};
 	},
-	data() {
-		return {
-			topics: topicsMock,
-		};
+	async mounted() {
+		await this.loadTopics(true);
 	},
-    mixins: [dateFormat],
+	mixins: [dateFormat],
 	methods: {
+		doInfinite() {
+			this.loadTopics(false);
+		},
+		doRefresh(event: RefreshEvent) {
+			this.loadTopics(true);
+			// this.topics.subscribe(() => {
+			// 	event.target.complete();
+			// });
+			setTimeout(() => {
+				console.log('Async operation has ended');
+				event.target.complete();
+			}, 2000);
+		},
 		goToTopicDetail(topic: ForumTopic) {
-			// console.log(topic.titel);
 			const topicID = topic.draad_id;
 			this.$router.push({ path: `/tabs/forum/${topicID}` });
-			// this.$router.push({ name: 'forum', params: { topicID } })
-		}
-	}
+		},
+		...mapActions('topics', {
+			loadTopics: 'loadTopics',
+		}),
+	},
+	computed: {
+		...mapGetters('topics', {
+			topics: 'getAllTopics',
+			moreAvailable: 'isMoreAvailable',
+		}),
+	},
 });
 </script>
