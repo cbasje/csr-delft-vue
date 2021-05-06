@@ -93,7 +93,6 @@
 						</ion-buttons>
 					</ion-item>
 
-					<!-- FIXME -->
 					<ion-item
 						button
 						v-mapsHref="
@@ -202,12 +201,17 @@ import {
 import { mail, text, call, map, personAdd } from 'ionicons/icons';
 import { defineComponent } from 'vue';
 
+import { mapActions, mapGetters } from 'vuex';
+import { useRoute } from 'vue-router';
+
 import { isPlatform } from '@ionic/vue';
 
 import dateFormat from '@/mixins/dateFormat';
 import mapsHref from '@/mixins/directives/mapsHref';
-import { mapActions, mapGetters } from 'vuex';
-import { useRoute } from 'vue-router';
+
+import { MemberDetail } from '@/store/members/members.model';
+
+import contactService from '@/services/contact.service';
 
 export default defineComponent({
 	name: 'Members',
@@ -255,14 +259,30 @@ export default defineComponent({
 	},
 	mixins: [dateFormat, mapsHref],
 	methods: {
-		getSafeUrl(pre: string, url: string) {
-			return `${pre}:${url}`;
+		getSafeUrl(scheme: string, target: string): any {
+			const url = scheme + ':' + encodeURIComponent(target);
+			// return this.sanitizer.bypassSecurityTrustUrl(url);
+			return url;
 		},
-		openImage() {
-			// TODO
+		async saveContact(member: MemberDetail) {
+			await contactService.save(member);
 		},
-		saveContact() {
-			// TODO
+		openImage(member: MemberDetail) {
+			const url =
+				this.imageUrl + member.pasfoto.replace('.vierkant.png', '.jpg');
+
+			if (isPlatform('mobile')) {
+				// FIXME
+				// this.photoViewer.show(url, member.naam.formeel, {
+				// 	share: false,
+				// 	closeButton: true,
+				// 	copyToReference: false,
+				// 	headers: '',
+				// 	piccasoOptions: { }
+				// });
+			} else {
+				window.open(url, '_blank');
+			}
 		},
 		formattedDate(dateString: string): string {
 			// From the mixin

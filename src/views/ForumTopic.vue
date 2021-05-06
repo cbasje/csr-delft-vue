@@ -17,7 +17,9 @@
 		</ion-header>
 
 		<ion-content>
-			<div class="container"></div>
+			<div class="container">
+				
+			</div>
 		</ion-content>
 	</ion-page>
 </template>
@@ -39,7 +41,7 @@ import { defineComponent } from 'vue';
 
 import { useRoute } from 'vue-router';
 
-import { Browser } from '@capacitor/browser';
+import urlService from '../services/url.service';
 
 export default defineComponent({
 	name: 'ForumTopic',
@@ -67,13 +69,7 @@ export default defineComponent({
 			const url =
 				process.env.VUE_APP_SITE_URL +
 				`/forum/onderwerp/${this.topicID}#ongelezen`;
-			// FIXME
-			// this.urlService.open(url);
-			await Browser.open({
-				url: url,
-				toolbarColor: '#FF0000',
-				presentationStyle: 'popover'
-			});
+			urlService.open(url);
 		},
 	},
 });
