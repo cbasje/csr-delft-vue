@@ -15,7 +15,7 @@
 				<!-- Show this or the FAB depending on platform but never on web -->
 				<ion-buttons slot="end" v-if="ios">
 					<ion-button v-if="member" @click="saveContact(member)">
-						<ion-icon slot="icon-only" name="person-add"></ion-icon>
+						<ion-icon slot="icon-only" :icon="personAdd"></ion-icon>
 					</ion-button>
 				</ion-buttons>
 			</ion-toolbar>
@@ -152,7 +152,7 @@
 					slot="fixed"
 				>
 					<ion-fab-button v-if="member" @click="saveContact(member)">
-						<ion-icon :icon="person - add"></ion-icon>
+						<ion-icon :icon="personAdd"></ion-icon>
 					</ion-fab-button>
 				</ion-fab>
 			</div>
@@ -179,7 +179,7 @@ import {
 	IonFab,
 	IonFabButton,
 } from '@ionic/vue';
-import { mail, text, call, map } from 'ionicons/icons';
+import { mail, text, call, map, personAdd } from 'ionicons/icons';
 import { defineComponent } from 'vue';
 
 import { isPlatform } from '@ionic/vue';
@@ -226,6 +226,7 @@ export default defineComponent({
 			text,
 			call,
 			map,
+			personAdd,
 		};
 	},
 	async mounted() {

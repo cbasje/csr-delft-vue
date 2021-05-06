@@ -155,13 +155,12 @@ export default defineComponent({
 	methods: {
 		search(event: Event) {
 			const query = (event.target as HTMLInputElement).value;
-			// console.log(query);
 
 			this.members = this.searchMembers(query);
 		},
 		goToMemberDetail(member: Member) {
-			// console.log(topic.titel);
 			const memberID = member.id;
+			
 			this.$router.push({ path: `/tabs/members/${memberID}` });
 			// this.$router.push({ name: 'forum', params: { topicID } })
 		},
