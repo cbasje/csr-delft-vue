@@ -21,7 +21,7 @@ const store = createStore({
 		},
 		getSelectedTopicPostIds(state: any, getters: any) {
 			const posts = getters['getSelectedTopicPosts'];
-			
+
 			return posts && posts.ids;
 		},
 		getSelectedTopicPostsAll(state: any, getters: any) {
@@ -37,10 +37,10 @@ const store = createStore({
 		},
 		getSelectedTopicMorePostsAvailable(state: any, getters: any) {
 			const posts = getters['getSelectedTopicPosts'];
-			
+
 			return (posts && posts.isMoreAvailable) || [];
-		}
-	}
+		},
+	},
 });
 
 export default store;

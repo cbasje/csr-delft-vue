@@ -58,8 +58,8 @@
 									{{ post.uid_naam }}
 								</h3>
 								<p class="post-date">
-									17:17
-									<!-- {{ post.datum_tijd.date | dateCalendar: { sameDay: 'HH:mm', lastDay: 'HH:mm', lastWeek: 'eeeeee ee', sameElse: 'dd-MM-yy' } }} -->
+									<!-- Date from the mixin -->
+									{{ formatDate(post.datum_tijd.date) }}
 								</p>
 							</ion-label>
 						</ion-item>
@@ -108,6 +108,8 @@ import { mapActions, mapGetters, mapMutations } from 'vuex';
 
 import ForumMessage from '@/components/ForumMessage.vue';
 
+import dateFormat from '@/mixins/dateFormat';
+
 import urlService from '../services/url.service';
 
 export default defineComponent({
@@ -151,8 +153,8 @@ export default defineComponent({
 				this.selectTopic(this.topicID);
 			}
 		);
-		console.log(this.posts);
 	},
+	mixins: [dateFormat],
 	methods: {
 		async viewExternal() {
 			const url =

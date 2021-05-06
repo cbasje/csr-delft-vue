@@ -13,7 +13,6 @@
 			</ion-header>
 
 			<div class="container">
-				<!-- <div *ngIf="topics$ | async as topics"> -->
 				<ion-refresher slot="fixed" @ionRefresh="doRefresh($event)">
 					<ion-refresher-content></ion-refresher-content>
 				</ion-refresher>
@@ -40,7 +39,7 @@
 								<strong>
 									{{ topic.laatste_wijziging_naam }}:
 								</strong>
-								<!-- <ion-text class="ion-text-wrap" [innerHTML]="topic.laatste_post.tekst | bbStrip"></ion-text> -->
+								<!-- TODO: bbStrip -->
 								<ion-text
 									v-html="topic.laatste_post.tekst"
 								></ion-text>
@@ -85,7 +84,7 @@ import {
 	IonBadge,
 	IonSpinner,
 	IonRefresher,
-	IonRefresherContent
+	IonRefresherContent,
 } from '@ionic/vue';
 import { star, lockClosed } from 'ionicons/icons';
 import { defineComponent } from 'vue';
@@ -116,7 +115,7 @@ export default defineComponent({
 		IonBadge,
 		IonSpinner,
 		IonRefresher,
-		IonRefresherContent
+		IonRefresherContent,
 	},
 	setup() {
 		return {

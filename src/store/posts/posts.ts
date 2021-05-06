@@ -38,9 +38,13 @@ const getters = {
 
 const actions = {
 	async loadPosts(
-		{ commit, state, rootGetters }: { commit: Function; state: any; rootGetters: any },
+		{
+			commit,
+			state,
+			rootGetters,
+		}: { commit: Function; state: any; rootGetters: any },
 		payload: { topicId: number; reset: boolean }
-	) {        
+	) {
 		const unread = rootGetters['topics/getSelectedId']
 			? rootGetters['topics/getSelectedTopic'].ongelezen
 			: 0;
