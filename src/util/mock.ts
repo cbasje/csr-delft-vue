@@ -2,7 +2,7 @@ import { Timezone } from '@/models/datum-tijd';
 import { Rechten } from '@/models/rechten';
 import { Event } from '@/store/events/events.model';
 import { Member, MemberDetail } from '@/store/members/members.model';
-import { ForumPost } from '@/store/posts/posts';
+import { ForumPost } from '@/store/posts/posts.model';
 import { ForumTopic, Titel } from '@/store/topics/topics.model';
 
 export const eventsMock: Event[] = [

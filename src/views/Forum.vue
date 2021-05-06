@@ -133,14 +133,9 @@ export default defineComponent({
 			this.loadTopics(false);
 		},
 		doRefresh(event: RefreshEvent) {
-			this.loadTopics(true);
-			// this.topics.subscribe(() => {
-			// 	event.target.complete();
-			// });
-			setTimeout(() => {
-				console.log('Async operation has ended');
+			this.loadTopics(true).then(() => {
 				event.target.complete();
-			}, 2000);
+			});
 		},
 		goToTopicDetail(topic: ForumTopic) {
 			const topicID = topic.draad_id;

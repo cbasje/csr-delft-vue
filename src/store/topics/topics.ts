@@ -8,12 +8,13 @@ export interface State {
 	isMoreAvailable: boolean;
 }
 
-const state = () => ({
-    ids: [],
-    entities: {},
-    selectedId: null,
-    isMoreAvailable: true,
-} as State);
+const state = () =>
+	({
+		ids: [],
+		entities: {},
+		selectedId: null,
+		isMoreAvailable: true,
+	} as State);
 
 export const TOPICS_PER_LOAD = 10;
 
@@ -27,22 +28,28 @@ const getters = {
 		// 	return state.entities.find((m: Member) => m.id == id);
 		// };
 	},
+	getSelectedId(state: any) {
+		return state.selectedId;
+	},
 	getLength(state: any) {
 		return state.ids.length;
 	},
-    isMoreAvailable(state: any) {
-        return state.isMoreAvailable;
-    }
+	isMoreAvailable(state: any) {
+		return state.isMoreAvailable;
+	},
 };
 
 const actions = {
-	async loadTopics(context: any, payload: boolean) {
-		const offset = payload ? 0 : context.state.ids.length;
+	async loadTopics(
+		{ commit, state }: { commit: Function; state: any },
+		payload: boolean
+	) {
+		const offset = payload ? 0 : state.ids.length;
 		const limit = TOPICS_PER_LOAD;
 		const response = await axios.get<{ data: ForumTopic[] }>(
 			`${process.env.VUE_APP_SITE_URL}/forum/recent?offset=${offset}&limit=${limit}`
 		);
-		context.commit('saveAllTopics', {
+		commit('saveAllTopics', {
 			reset: payload,
 			topics: response.data,
 		});
@@ -63,7 +70,7 @@ const mutations = {
 		const reset = payload.reset;
 		const loadedTopics = payload.topics;
 
-		const topicIds = loadedTopics.map(topic => topic.draad_id);
+		const topicIds = loadedTopics.map((topic) => topic.draad_id);
 		const topicEntities = loadedTopics.reduce(
 			(entities: { [id: string]: ForumTopic }, t: ForumTopic) => {
 				return { ...entities, [t.draad_id]: t };

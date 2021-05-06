@@ -1,5 +1,5 @@
 import { DatumTijd } from "../../models/datum-tijd";
-import { ForumPost } from "../posts/posts";
+import { ForumPost } from "../posts/posts.model";
 import { Rechten } from "../../models/rechten";
 
 export interface ForumTopic {
