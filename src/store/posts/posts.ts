@@ -1,5 +1,5 @@
 import { ForumPost } from './posts.model';
-import axios from 'axios';
+import apiService from '@/services/api.service';
 
 export interface State {
 	entities: { [id: number]: ForumPost };
@@ -38,21 +38,19 @@ const getters = {
 
 const actions = {
 	async loadPosts(
-		{
-			commit,
-			state,
-			rootGetters,
-		}: { commit: Function; state: any; rootGetters: any },
+		{ commit, rootGetters }: { commit: Function; rootGetters: any },
 		payload: { topicId: number; reset: boolean }
 	) {
-		const unread = rootGetters['topics/getSelectedId']
+		const unread = rootGetters['topics/getSelectedTopic']
 			? rootGetters['topics/getSelectedTopic'].ongelezen
 			: 0;
-		const offset = payload.reset ? 0 : rootGetters['topics/getLength'] || 0;
+		const offset = payload.reset ? 0 : rootGetters['getSelectedTopicPostsLength'] || 0;
 		const limit = getLimit(unread, POSTS_PER_LOAD);
 
-		const response = await axios.get<{ data: ForumPost[] }>(
-			`${process.env.VUE_APP_SITE_URL}/forum/onderwerp/${payload.topicId}?offset=${offset}&limit=${limit}`
+		const response = await apiService.getForumTopic(
+			payload.topicId,
+			offset,
+			limit
 		);
 		commit('saveAllPosts', {
 			topicId: payload.topicId,

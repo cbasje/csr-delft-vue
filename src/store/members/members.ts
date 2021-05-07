@@ -1,5 +1,5 @@
 import { Member, MemberDetail } from './members.model';
-import axios from 'axios';
+import apiService from '@/services/api.service';
 
 export interface State {
 	ids: string[];
@@ -24,13 +24,13 @@ const getters = {
 		return state.ids.map((id: string) => state.entities[id]);
 	},
 	getSelectedMember(state: any) {
-		return (state.selectedMemberId && state.entities[state.selectedMemberId]) || null;
+		return (state.selectedId && state.entities[state.selectedId]) || null;
 		// return (id: string) => {
 		// 	return state.entities.find((m: Member) => m.id == id);
 		// };
 	},
 	getSelectedMemberDetail(state: any) {
-		return (state.selectedMemberId && state.detailEntities[state.selectedMemberId]) || null;
+		return (state.selectedId && state.detailEntities[state.selectedId]) || null;
 	},
 	getQueryResults(state: any) {
 		const allMembers = state.ids.map((id: string) => state.entities[id]);
@@ -58,22 +58,12 @@ const getters = {
 
 const actions = {
 	async loadMembers({ commit }: { commit: Function }) {
-		const response = await axios.get(
-			`${process.env.VUE_APP_SITE_URL}/leden`
-		);
+		const response = await apiService.getMemberList();
 		commit('saveAllMembers', response.data);
 	},
-	async loadSelectedMember(context: any) {
-		const response = await axios.get(
-			`${process.env.VUE_APP_SITE_URL}/leden/${context.state.selectedMemberId}`
-		);
-		context.commit('saveSelectedMember', response.data);
-	},
-	selectMember({ commit }: { commit: Function }, id: number) {
-		commit('saveSelectMember', id);
-	},
-	search({ commit }: { commit: Function }, query: string) {
-		commit('saveSearchQuery', query);
+	async loadSelectedMember({ commit, state }: { commit: any; state: any }) {
+		const response = await apiService.getMemberDetail(state.selectedId);
+		commit('saveSelectedMember', response.data);
 	}
 };
 
@@ -101,10 +91,10 @@ const mutations = {
 			[member.id]: member
 		}
 	},
-	saveSelectMember(state: any, id: number) {
-		state.selectedMemberId = id;
+	selectMember(state: any, id: number) {
+		state.selectedId = id;
 	},
-	saveSearchQuery(state: any, query: string) {
+	search(state: any, query: string) {
 		state.query = query;
 	}
 };

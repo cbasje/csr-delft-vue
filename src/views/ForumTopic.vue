@@ -7,7 +7,8 @@
 						defaultHref="/tabs/forum"
 					></ion-back-button>
 				</ion-buttons>
-				<ion-title>Forum {{ topicID }}</ion-title>
+				<ion-title v-if="topic">{{ topic.titel }}</ion-title>
+				<ion-title v-else>Forum {{ topicId }}</ion-title>
 				<ion-buttons slot="end">
 					<ion-button @click="viewExternal()">
 						<ion-icon slot="icon-only" :icon="open"></ion-icon>
@@ -16,12 +17,15 @@
 			</ion-toolbar>
 		</ion-header>
 
-		<ion-content>
+		<ion-content ref="ionContent" scrollEvents="true">
 			<div class="container">
-				<!-- TODO: Infinite scroll -->
-				<!-- <ion-infinite-scroll (ionInfinite)="$event.waitFor(doInfinite())" [class.hideinf]="(moreAvailable$ | async) === false" [enabled]="moreAvailable$ | async" position="top">
-    <ion-infinite-scroll-content></ion-infinite-scroll-content>
-  </ion-infinite-scroll> -->
+				<ion-infinite-scroll
+					@ionInfinite="doInfinite($event)"
+					:disabled="!moreAvailable"
+					position="top"
+				>
+					<ion-infinite-scroll-content></ion-infinite-scroll-content>
+				</ion-infinite-scroll>
 
 				<ion-list class="post-list" v-if="posts.length > 0">
 					<ion-item-group
@@ -92,6 +96,8 @@ import {
 	IonBackButton,
 	IonButton,
 	IonIcon,
+	IonInfiniteScroll,
+	IonInfiniteScrollContent,
 	IonList,
 	IonItemGroup,
 	IonItemDivider,
@@ -101,7 +107,7 @@ import {
 	IonSpinner,
 } from '@ionic/vue';
 import { open } from 'ionicons/icons';
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 
 import { useRoute } from 'vue-router';
 import { mapActions, mapGetters, mapMutations } from 'vuex';
@@ -111,6 +117,13 @@ import ForumMessage from '@/components/ForumMessage.vue';
 import dateFormat from '@/mixins/dateFormat';
 
 import urlService from '../services/url.service';
+
+interface InfiniteEvent {
+	target: {
+		complete: Function;
+		disabled: boolean;
+	};
+}
 
 export default defineComponent({
 	name: 'ForumTopic',
@@ -125,6 +138,8 @@ export default defineComponent({
 		IonBackButton,
 		IonButton,
 		IonIcon,
+		IonInfiniteScroll,
+		IonInfiniteScrollContent,
 		IonList,
 		IonItemGroup,
 		IonItemDivider,
@@ -135,10 +150,14 @@ export default defineComponent({
 	},
 	setup() {
 		const route = useRoute();
-		const { topicID } = route.params;
+		const { topicId } = route.params;
+
+		const ionContent = ref();
+
 		return {
-			topicID,
+			topicId,
 			open,
+			ionContent,
 		};
 	},
 	data() {
@@ -148,33 +167,54 @@ export default defineComponent({
 		};
 	},
 	async mounted() {
-		await this.loadPosts({ topicId: this.topicID, reset: true }).then(
-			() => {
-				this.selectTopic(this.topicID);
-			}
-		);
+		this.selectTopic(this.topicId);
+		await this.loadPosts({ topicId: this.topicId, reset: true });
+
+		this.scrollToUnread();
 	},
 	mixins: [dateFormat],
 	methods: {
 		async viewExternal() {
 			const url =
 				process.env.VUE_APP_SITE_URL +
-				`/forum/onderwerp/${this.topicID}#ongelezen`;
+				`/forum/onderwerp/${this.topicId}#ongelezen`;
 			urlService.open(url);
+		},
+		doInfinite(event: InfiniteEvent) {
+			this.loadPosts({ topicId: this.topicId, reset: false }).then(() => {
+				console.log('Loaded data');
+				event.target.complete();
+				event.target.disabled = !this.moreAvailable;
+			});
+		},
+		scrollToUnread() {
+			const unreadEl = document.querySelector('.js-unread-post');
+
+			if (!unreadEl) {
+				this.ionContent.$el.scrollToBottom();
+				return;
+			}
+
+			const rect = unreadEl.getBoundingClientRect();
+			console.log(rect.top);
+			
+			this.ionContent.$el.scrollToPoint(null, rect.top + window.innerHeight);
 		},
 		...mapActions('posts', {
 			loadPosts: 'loadPosts',
 		}),
 		...mapMutations('topics', {
-			selectTopic: 'saveSelectTopic',
+			selectTopic: 'selectTopic',
 		}),
 	},
 	computed: {
 		...mapGetters('posts', {
 			byTopic: 'getByTopic',
 		}),
-		...mapGetters({
+		...mapGetters('topics', {
 			topic: 'getSelectedTopic',
+		}),
+		...mapGetters({
 			posts: 'getSelectedTopicPostsAll',
 			moreAvailable: 'getSelectedTopicMorePostsAvailable',
 		}),

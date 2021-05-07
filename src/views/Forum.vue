@@ -63,6 +63,10 @@
 						<ion-spinner></ion-spinner>
 					</div>
 				</template>
+
+				<ion-infinite-scroll @ionInfinite="doInfinite($event)">
+					<ion-infinite-scroll-content></ion-infinite-scroll-content>
+				</ion-infinite-scroll>
 			</div>
 		</ion-content>
 	</ion-page>
@@ -76,6 +80,8 @@ import {
 	IonToolbar,
 	IonTitle,
 	IonContent,
+	IonInfiniteScroll,
+	IonInfiniteScrollContent,
 	IonList,
 	IonItem,
 	IonIcon,
@@ -84,7 +90,7 @@ import {
 	IonBadge,
 	IonSpinner,
 	IonRefresher,
-	IonRefresherContent,
+	IonRefresherContent
 } from '@ionic/vue';
 import { star, lockClosed } from 'ionicons/icons';
 import { defineComponent } from 'vue';
@@ -107,6 +113,8 @@ export default defineComponent({
 		IonTitle,
 		IonContent,
 		IonPage,
+		IonInfiniteScroll,
+		IonInfiniteScrollContent,
 		IonList,
 		IonItem,
 		IonIcon,
@@ -137,8 +145,8 @@ export default defineComponent({
 			});
 		},
 		goToTopicDetail(topic: ForumTopic) {
-			const topicID = topic.draad_id;
-			this.$router.push({ path: `/tabs/forum/${topicID}` });
+			const topicId = topic.draad_id;
+			this.$router.push({ path: `/tabs/forum/${topicId}` });
 		},
 		...mapActions('topics', {
 			loadTopics: 'loadTopics',

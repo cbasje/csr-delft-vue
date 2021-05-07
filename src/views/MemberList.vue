@@ -110,7 +110,7 @@ import { defineComponent } from 'vue';
 
 import { isPlatform } from '@ionic/vue';
 import { Member } from '@/store/members/members.model';
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters, mapMutations } from 'vuex';
 
 export interface Group {
 	name: string;
@@ -157,15 +157,17 @@ export default defineComponent({
 			this.searchAction(query);
 		},
 		goToMemberDetail(member: Member) {
-			const memberID = member.id;
+			const memberId = member.id;
 
-			this.$router.push({ path: `/tabs/members/${memberID}` });
-			// this.$router.push({ name: 'forum', params: { topicID } })
+			this.$router.push({ path: `/tabs/members/${memberId}` });
+			// this.$router.push({ name: 'forum', params: { topicId } })
 		},
 		...mapActions('members', {
 			loadMembers: 'loadMembers',
-			searchAction: 'search'
 		}),
+		...mapMutations('members', {
+			searchAction: 'search',
+		})
 	},
 	computed: {
 		groups() {

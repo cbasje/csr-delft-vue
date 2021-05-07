@@ -93,7 +93,7 @@ export default defineComponent({
 				value: 'true',
 			});
 
-			// this.$router.push({ name: 'tabs/forum', params: { topicID } })
+			// this.$router.push({ name: 'tabs/forum', params: { topicId } })
 			this.$router.push('/tabs/forum');
 		},
 	},

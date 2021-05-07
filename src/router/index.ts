@@ -27,7 +27,7 @@ const routes: Array<RouteRecordRaw> = [
 				component: () => import('@/views/Forum.vue'),
 			},
 			{
-				path: 'forum/:topicID',
+				path: 'forum/:topicId',
 				component: () => import('@/views/ForumTopic.vue'),
 			},
 			{
@@ -35,7 +35,7 @@ const routes: Array<RouteRecordRaw> = [
 				component: () => import('@/views/EventCalendar.vue'),
 			},
 			{
-				path: 'events/:eventID',
+				path: 'events/:eventId',
 				component: () => import('@/views/EventDetail.vue'),
 			},
 			{
@@ -43,7 +43,7 @@ const routes: Array<RouteRecordRaw> = [
 				component: () => import('@/views/MemberList.vue'),
 			},
 			{
-				path: 'members/:memberID',
+				path: 'members/:memberId',
 				component: () => import('@/views/MemberDetail.vue'),
 			},
 			{

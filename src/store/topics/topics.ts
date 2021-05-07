@@ -1,5 +1,5 @@
 import { ForumTopic } from './topics.model';
-import axios from 'axios';
+import apiService from '@/services/api.service';
 
 export interface State {
 	entities: { [id: number]: ForumTopic };
@@ -46,20 +46,13 @@ const actions = {
 	) {
 		const offset = payload ? 0 : state.ids.length;
 		const limit = TOPICS_PER_LOAD;
-		const response = await axios.get<{ data: ForumTopic[] }>(
-			`${process.env.VUE_APP_SITE_URL}/forum/recent?offset=${offset}&limit=${limit}`
-		);
+
+		const response = await apiService.getForumRecent(offset, limit);
 		commit('saveAllTopics', {
 			reset: payload,
 			topics: response.data,
 		});
-	},
-	selectTopic({ commit }: { commit: Function }, id: number) {
-		commit('saveSelectTopic', id);
-	},
-	read({ commit }: { commit: Function }, payload: number) {
-		commit('saveRead', payload);
-	},
+	}
 };
 
 const mutations = {
@@ -84,10 +77,10 @@ const mutations = {
 			: { ...state.entities, ...topicEntities };
 		state.isMoreAvailable = loadedTopics.length === TOPICS_PER_LOAD;
 	},
-	saveSelectTopic(state: any, id: number) {
+	selectTopic(state: any, id: number) {
 		state.selectedId = id;
 	},
-	saveRead(state: any, payload: number) {
+	read(state: any, payload: number) {
 		state.entities = {
 			...state.entities,
 			[payload]: {

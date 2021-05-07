@@ -19,7 +19,7 @@
 					{{ member.tussenvoegsel }}
 					{{ member.achternaam }}
 				</ion-title>
-				<ion-title v-else> Lid {{ memberID }} </ion-title>
+				<ion-title v-else> Lid {{ memberId }} </ion-title>
 
 				<!-- Show this or the FAB depending on platform but never on web -->
 				<ion-buttons slot="end" v-if="ios">
@@ -201,7 +201,7 @@ import {
 import { mail, text, call, map, personAdd } from 'ionicons/icons';
 import { defineComponent } from 'vue';
 
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters, mapMutations } from 'vuex';
 import { useRoute } from 'vue-router';
 
 import { isPlatform } from '@ionic/vue';
@@ -235,9 +235,9 @@ export default defineComponent({
 	},
 	setup() {
 		const route = useRoute();
-		const { memberID } = route.params;
+		const { memberId } = route.params;
 		return {
-			memberID,
+			memberId,
 			open,
 		};
 	},
@@ -254,7 +254,7 @@ export default defineComponent({
 		};
 	},
 	async mounted() {
-		await this.selectMember(this.memberID);
+		await this.selectMember(this.memberId);
 		await this.loadSelectedMember();
 	},
 	mixins: [dateFormat, mapsHref],
@@ -289,9 +289,11 @@ export default defineComponent({
 			return this.formatDate(dateString);
 		},
 		...mapActions('members', {
-			selectMember: 'selectMember',
 			loadSelectedMember: 'loadSelectedMember',
 		}),
+		...mapMutations('members', {
+			selectMember: 'selectMember',
+		})
 	},
 	computed: {
 		...mapGetters('members', {
