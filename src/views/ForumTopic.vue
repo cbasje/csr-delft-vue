@@ -162,15 +162,17 @@ export default defineComponent({
 	},
 	data() {
 		return {
-			imageUrl: '',
-			unread: 5,
+			imageUrl: process.env.VUE_APP_SITE_URL + '/profiel/pasfoto/',
 		};
 	},
 	async mounted() {
 		this.selectTopic(this.topicId);
-		await this.loadPosts({ topicId: this.topicId, reset: true });
-
-		this.scrollToUnread();
+		await this.loadPosts({ topicId: this.topicId, reset: true }).then(() => {
+			this.scrollToUnread();
+		});
+	},
+	beforeUnmount() {
+		this.readAction(this.topicId);
 	},
 	mixins: [dateFormat],
 	methods: {
@@ -181,7 +183,7 @@ export default defineComponent({
 			urlService.open(url);
 		},
 		doInfinite(event: InfiniteEvent) {
-			this.loadPosts({ topicId: this.topicId, reset: false }).then(() => {
+			this.loadPosts({ topicId: this.topicId, reset: false }).finally(() => {
 				console.log('Loaded data');
 				event.target.complete();
 				event.target.disabled = !this.moreAvailable;
@@ -196,15 +198,16 @@ export default defineComponent({
 			}
 
 			const rect = unreadEl.getBoundingClientRect();
-			console.log(rect.top);
-			
-			this.ionContent.$el.scrollToPoint(null, rect.top + window.innerHeight);
+			console.log(rect.top + window.outerHeight);
+
+			this.ionContent.$el.scrollToPoint(0, rect.top + window.outerHeight);
 		},
 		...mapActions('posts', {
 			loadPosts: 'loadPosts',
 		}),
 		...mapMutations('topics', {
 			selectTopic: 'selectTopic',
+			readAction: 'read'
 		}),
 	},
 	computed: {
@@ -213,6 +216,7 @@ export default defineComponent({
 		}),
 		...mapGetters('topics', {
 			topic: 'getSelectedTopic',
+			unread: 'getUnreadInTopic',
 		}),
 		...mapGetters({
 			posts: 'getSelectedTopicPostsAll',

@@ -28,6 +28,13 @@ const getters = {
 		// 	return state.entities.find((m: Member) => m.id == id);
 		// };
 	},
+	getUnreadInTopic(state: any, getters: any) {
+		return (
+			(getters['getSelectedTopic'] &&
+				getters['getSelectedTopic'].ongelezen) ||
+			0
+		);
+	},
 	getSelectedId(state: any) {
 		return state.selectedId;
 	},
@@ -52,7 +59,7 @@ const actions = {
 			reset: payload,
 			topics: response.data,
 		});
-	}
+	},
 };
 
 const mutations = {
