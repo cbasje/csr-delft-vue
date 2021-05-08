@@ -2,6 +2,8 @@ import { MemberDetail } from '@/store/members/members.model';
 import { ActionSheet, ActionSheetButtonStyle } from '@capacitor/action-sheet';
 import { isPlatform } from '@ionic/core';
 
+import { Contacts } from 'contacts-plugin';
+
 import toastService from './toast.service';
 
 // function getNameField(member: MemberDetail) {
@@ -71,9 +73,12 @@ export default {
 				break;
 		}
 	},
-	saveNew(member: MemberDetail) {
+	async saveNew(member: MemberDetail) {
 		// let contact: Contact = this.contacts.create();
 		// this.saveContact(contact, member);
+		const contacts = (await Contacts.getContacts('somefilter')).results;
+		console.log('my contacts: ', contacts);
+
 		toastService.notify(`${member.naam.voornaam} opslaan als nieuw contact`);
 	},
 	addToExisting(member: MemberDetail) {

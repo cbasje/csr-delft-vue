@@ -14,5 +14,9 @@
 	{
 		"pkg": "@capacitor/toast",
 		"classpath": "com.capacitorjs.plugins.toast.ToastPlugin"
+	},
+	{
+		"pkg": "contacts-plugin",
+		"classpath": "nl.csrdelft.plugins.contacts.ContactsPlugin"
 	}
 ]
