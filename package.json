@@ -2,7 +2,7 @@
   "name": "csr-delft-vue",
   "version": "0.0.1",
   "private": true,
-  "description": "An Ionic project",
+  "description": "The app for C.S.R. Delft",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
