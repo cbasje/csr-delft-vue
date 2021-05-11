@@ -2,7 +2,7 @@
   "name": "csr-delft-vue",
   "version": "0.0.1",
   "private": true,
-  "description": "An Ionic project",
+  "description": "The app for C.S.R. Delft",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -23,6 +23,7 @@
     "@vuelidate/core": "*",
     "@vuelidate/validators": "*",
     "axios": "^0.21.1",
+    "contacts-plugin": "file:contacts-plugin",
     "core-js": "^3.6.5",
     "dayjs": "^1.10.4",
     "register-service-worker": "^1.7.1",

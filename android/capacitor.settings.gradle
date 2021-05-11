@@ -13,3 +13,6 @@ project(':capacitor-storage').projectDir = new File('../node_modules/@capacitor/
 
 include ':capacitor-toast'
 project(':capacitor-toast').projectDir = new File('../node_modules/@capacitor/toast/android')
+
+include ':contacts-plugin'
+project(':contacts-plugin').projectDir = new File('../contacts-plugin/android')

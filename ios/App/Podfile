@@ -13,6 +13,7 @@ def capacitor_pods
   pod 'CapacitorBrowser', :path => '../../node_modules/@capacitor/browser'
   pod 'CapacitorStorage', :path => '../../node_modules/@capacitor/storage'
   pod 'CapacitorToast', :path => '../../node_modules/@capacitor/toast'
+  pod 'ContactsPlugin', :path => '../../contacts-plugin'
 end
 
 target 'App' do
