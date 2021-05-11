@@ -8,6 +8,7 @@ import toastService from './toast.service';
 
 function getContact(member: MemberDetail): Contact {
 	return {
+		displayName: member.naam.formeel,
 		namePrefix: null,
 		givenName: member.naam.voornaam,
 		middleName: null,
@@ -19,6 +20,8 @@ function getContact(member: MemberDetail): Contact {
 		nickname: null,
 		
 		note: null,
+
+		groupName: "C.S.R.",
 
 		phoneNumberLabels: [ "mobiel" ],
 		phoneNumbers: [ member.mobiel ],
@@ -105,10 +108,10 @@ export default {
 		// let contact: Contact = this.contacts.create();
 		// this.saveContact(contact, member);
 
-		await Contacts.createNew(contact);
-
-		toastService.notify(
-			`Opslaan als nieuw contact`
+		await Contacts.createNew(contact).then(
+			// FIXME
+			() => toastService.notify('Succesvol opgeslagen in contacten.'),
+			() => toastService.notify('Opslaan in contacten mislukt.')
 		);
 	},
 	async addToExisting(contact: Contact) {
@@ -119,10 +122,10 @@ export default {
 		// 	this.saveContact(contact, member);
 		// });
 
-		await Contacts.addToExisting(contact);
-
-		toastService.notify(
-			`Opslaan in een bestaand contact`
+		await Contacts.addToExisting(contact).then(
+			// FIXME
+			() => toastService.notify('Succesvol opgeslagen in contacten.'),
+			() => toastService.notify('Opslaan in contacten mislukt.')
 		);
 	},
 	saveContact(member: MemberDetail) {
