@@ -1,14 +1,11 @@
-import dayjs from 'dayjs';
-import localizedFormat from 'dayjs/plugin/localizedFormat';
-import nl from 'dayjs/locale/nl';
+import moment from 'moment';
 
 export default {
     methods: {
         formatDate(dateString: string) {
-            
-            dayjs.extend(localizedFormat).locale(nl);
-            const date = dayjs(dateString);
-            // Then specify how you want your dates to be formatted
+            moment.locale('nl');
+            const date = moment(dateString);
+
             // TODO: add more options
             return date.format('ll');
         }
