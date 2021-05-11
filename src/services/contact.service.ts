@@ -7,40 +7,43 @@ import { Contact, Contacts } from 'contacts-plugin';
 import toastService from './toast.service';
 
 function getContact(member: MemberDetail): Contact {
+	const givenName = member.naam.voornaam;
+	const familyName = member.naam.tussenvoegsel
+		? member.naam.tussenvoegsel + ' ' + member.naam.achternaam
+		: member.naam.achternaam;
+		
 	return {
-		displayName: member.naam.formeel,
+		displayName: givenName + ' ' + familyName,
 		namePrefix: null,
-		givenName: member.naam.voornaam,
+		givenName: givenName,
 		middleName: null,
-		familyName: member.naam.tussenvoegsel
-					? member.naam.tussenvoegsel + ' ' + member.naam.achternaam
-					: member.naam.achternaam,
+		familyName: familyName,
 		previousFamilyName: null,
 		nameSuffix: null,
 		nickname: null,
-		
+
 		note: null,
 
-		groupName: "C.S.R.",
+		groupName: 'C.S.R.',
 
-		phoneNumberLabels: [ "mobiel" ],
-		phoneNumbers: [ member.mobiel ],
-		
-		emailLabels: [ "huis" ],
-		emails: [ member.email ],
+		phoneNumberLabels: ['mobiel'],
+		phoneNumbers: [member.mobiel],
 
-		addressLabel: member.huis.naam ? member.huis.naam : "thuis",
+		emailLabels: ['huis'],
+		emails: [member.email],
+
+		addressLabel: member.huis.naam ? member.huis.naam : 'thuis',
 		street: member.huis.adres,
 		city: member.huis.woonplaats,
 		state: null,
 		postalCode: member.huis.postcode,
 		country: member.huis.land,
 
-		urlLabels: [ "profiel" ],
-		urls: [ `${process.env.VUE_APP_SITE_URL}/profiel/${member.id}` ],
+		urlLabels: ['profiel'],
+		urls: [`${process.env.VUE_APP_SITE_URL}/profiel/${member.id}`],
 
-		birthday: member.geboortedatum
-	}
+		birthday: member.geboortedatum,
+	};
 }
 
 // TODO
@@ -109,9 +112,8 @@ export default {
 		// this.saveContact(contact, member);
 
 		await Contacts.createNew(contact).then(
-			// FIXME
-			() => toastService.notify('Succesvol opgeslagen in contacten.'),
-			() => toastService.notify('Opslaan in contacten mislukt.')
+			(result) => this.onFulfilledSave(result.savedContact),
+			(reason) => this.onRejectedSave(reason)
 		);
 	},
 	async addToExisting(contact: Contact) {
@@ -123,16 +125,16 @@ export default {
 		// });
 
 		await Contacts.addToExisting(contact).then(
-			// FIXME
-			() => toastService.notify('Succesvol opgeslagen in contacten.'),
-			() => toastService.notify('Opslaan in contacten mislukt.')
+			(result) => this.onFulfilledSave(result.savedContact),
+			(reason) => this.onRejectedSave(reason)
 		);
 	},
-	saveContact(member: MemberDetail) {
-		// 	contact.save().then(
-		// 		// FIXME
-		// 		() => toastService.notify('Succesvol opgeslagen in contacten.'),
-		// 		() => toastService.notify('Opslaan in contacten mislukt.')
-		// 	);
+	onFulfilledSave(contact: Contact) {
+		toastService.notify(
+			`${contact.displayName} succesvol opgeslagen in contacten.`
+		);
+	},
+	onRejectedSave(reason: any) {
+		toastService.notify(`Opslaan in contacten mislukt omdat: ${reason}`);
 	},
 };
