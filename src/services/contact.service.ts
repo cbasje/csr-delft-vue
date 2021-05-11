@@ -11,14 +11,13 @@ function getContact(member: MemberDetail): Contact {
 	const familyName = member.naam.tussenvoegsel
 		? member.naam.tussenvoegsel + ' ' + member.naam.achternaam
 		: member.naam.achternaam;
-		
+
 	return {
 		displayName: givenName + ' ' + familyName,
 		namePrefix: null,
 		givenName: givenName,
 		middleName: null,
 		familyName: familyName,
-		previousFamilyName: null,
 		nameSuffix: null,
 		nickname: null,
 
