@@ -12,7 +12,10 @@
 				</ion-toolbar>
 			</ion-header>
 
-			<ExploreContainer name="EventCalendar page" />
+			<!-- <FullCalendar options="calendarOptions" /> -->
+			<div class="container">
+				
+			</div>
 		</ion-content>
 	</ion-page>
 </template>
@@ -25,18 +28,19 @@ import {
 	IonTitle,
 	IonContent,
 } from '@ionic/vue';
-import ExploreContainer from '@/components/ExploreContainer.vue';
 import { defineComponent } from 'vue';
+
+// import FullCalendar from '@fullcalendar/vue';
+// import dayGridPlugin from '@fullcalendar/daygrid';
 
 export default defineComponent({
 	name: 'EventCalendar',
 	components: {
-		ExploreContainer,
 		IonHeader,
 		IonToolbar,
 		IonTitle,
 		IonContent,
 		IonPage,
-	},
+	}
 });
 </script>
