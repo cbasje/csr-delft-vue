@@ -8,7 +8,6 @@ ion-list.md ion-item-group > ion-item {
 
 .loading {
 	text-align: center !important;
-	padding: 16px;
 }
 
 @media (max-width: 575px) {

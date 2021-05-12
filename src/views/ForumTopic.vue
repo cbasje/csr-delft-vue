@@ -17,7 +17,7 @@
 			</ion-toolbar>
 		</ion-header>
 
-		<ion-content ref="ionContent" scrollEvents="true">
+		<ion-content ref="ionContent" scrollEvents="true" class="ion-padding">
 			<div class="container">
 				<ion-infinite-scroll
 					@ionInfinite="doInfinite($event)"

@@ -33,7 +33,7 @@
 			</ion-toolbar>
 		</ion-header>
 
-		<ion-content>
+		<ion-content class="ion-padding">
 			<div class="container">
 				<ion-list v-if="memberDetail">
 					<!-- <ion-list v-if="memberDetail"> -->
