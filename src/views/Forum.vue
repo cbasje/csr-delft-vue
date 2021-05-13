@@ -5,7 +5,7 @@
 				<ion-title>Forum Recent</ion-title>
 			</ion-toolbar>
 		</ion-header>
-		<ion-content :fullscreen="true">
+		<ion-content :fullscreen="true" class="ion-padding">
 			<ion-header collapse="condense">
 				<ion-toolbar>
 					<ion-title size="large">Forum Recent</ion-title>

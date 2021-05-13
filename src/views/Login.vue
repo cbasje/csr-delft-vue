@@ -5,7 +5,8 @@
 				<ion-title>Login</ion-title>
 			</ion-toolbar>
 		</ion-header>
-		<ion-content>
+		
+		<ion-content class="ion-padding">
 			<div class="container">
 				<form @submit.prevent="login" method="post">
 					<p>
@@ -47,7 +48,7 @@
 
 					<ion-button type="submit" expand="block">
 						Inloggen
-          </ion-button>
+					</ion-button>
 				</form>
 			</div>
 		</ion-content>
