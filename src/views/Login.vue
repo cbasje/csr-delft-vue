@@ -48,7 +48,7 @@
 
 					<ion-button type="submit" expand="block">
 						Inloggen
-          </ion-button>
+					</ion-button>
 				</form>
 			</div>
 		</ion-content>
