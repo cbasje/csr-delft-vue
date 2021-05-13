@@ -12,9 +12,8 @@
 				</ion-toolbar>
 			</ion-header>
 
-			<!-- <FullCalendar options="calendarOptions" /> -->
 			<div class="container">
-				
+				<!-- <FullCalendar options="calendarOptions" /> -->
 			</div>
 		</ion-content>
 	</ion-page>
@@ -30,17 +29,18 @@ import {
 } from '@ionic/vue';
 import { defineComponent } from 'vue';
 
-// import FullCalendar from '@fullcalendar/vue';
-// import dayGridPlugin from '@fullcalendar/daygrid';
+// import FullCalendar from '@fullcalendar/vue'
+// import dayGridPlugin from '@fullcalendar/daygrid'
 
 export default defineComponent({
 	name: 'EventCalendar',
 	components: {
+		// FullCalendar,
 		IonHeader,
 		IonToolbar,
 		IonTitle,
 		IonContent,
 		IonPage,
-	}
+	},
 });
 </script>

@@ -1,11 +1,14 @@
 import { createStore } from 'vuex';
 
+import authModule from './auth/auth';
+// import eventsModule from './events/events';
 import membersModule from './members/members';
 import topicsModule from './topics/topics';
 import postsModule from './posts/posts';
 
 const store = createStore({
 	modules: {
+		auth: authModule,
 		// events: eventsModule,
 		members: membersModule,
 		topics: topicsModule,

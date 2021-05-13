@@ -198,7 +198,7 @@ export default defineComponent({
 			}
 
 			const rect = unreadEl.getBoundingClientRect();
-			console.log(rect.top + window.outerHeight);
+			// console.log(rect.top + window.outerHeight);
 
 			this.ionContent.$el.scrollToPoint(0, rect.top + window.outerHeight);
 		},

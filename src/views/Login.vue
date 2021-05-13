@@ -5,7 +5,7 @@
 				<ion-title>Login</ion-title>
 			</ion-toolbar>
 		</ion-header>
-		
+
 		<ion-content class="ion-padding">
 			<div class="container">
 				<form @submit.prevent="login" method="post">
@@ -66,13 +66,17 @@ import {
 	IonLabel,
 	IonButton,
 	IonInput,
+	loadingController,
 } from '@ionic/vue';
 import { defineComponent } from 'vue';
 
 import { useVuelidate } from '@vuelidate/core';
 import { required, helpers } from '@vuelidate/validators';
 
-import { Storage } from '@capacitor/storage';
+import authService from '@/services/auth.service';
+
+import { Dialog } from '@capacitor/dialog';
+import { mapActions, mapMutations } from 'vuex';
 
 export default defineComponent({
 	name: 'Login',
@@ -89,14 +93,44 @@ export default defineComponent({
 	},
 	methods: {
 		async login() {
-			await Storage.set({
-				key: 'isAuthenticated',
-				value: 'true',
+			const loading = await loadingController.create({
+				message: 'Inloggen...',
 			});
 
-			// this.$router.push({ name: 'tabs/forum', params: { topicId } })
-			this.$router.push('/tabs/forum');
+			await loading.present();
+
+			authService
+				.login({
+					username: this.username,
+					password: this.password,
+				})
+				.then((tokens) => {
+					this.setAuthenticated(true);
+					this.setTokens(tokens);
+
+					// this.$router.push({ name: 'tabs/forum', params: { topicId } })
+					this.$router.push('/tabs/forum').then(() => {
+						loading.dismiss();
+					});
+				})
+				.catch(async (error) => {
+					loading.dismiss();
+
+					await Dialog.alert({
+						title: 'Inloggen mislukt',
+						message: `Pff, die verplicht ingewikkelde wachtwoorden ook... \
+            Het kan zijn dat je even moet wachten voor je een nieuwe poging mag wagen. Omdat: \
+			${error}`,
+						buttonTitle: 'Probeer het nog eens',
+					});
+				});
 		},
+		...mapActions('auth', {
+			setTokens: 'setTokens',
+		}),
+		...mapMutations('auth', {
+			setAuthenticated: 'setAuthenticated',
+		}),
 	},
 	setup() {
 		// const ionRouter = useIonRouter();

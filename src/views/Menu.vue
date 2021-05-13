@@ -87,7 +87,7 @@ import {
 import { logOut, cog } from 'ionicons/icons';
 import { defineComponent } from 'vue';
 
-import { Storage } from '@capacitor/storage';
+import { mapMutations } from 'vuex';
 
 export default defineComponent({
 	name: 'Menu',
@@ -114,14 +114,14 @@ export default defineComponent({
 	},
 	methods: {
 		async logout() {
-			await Storage.set({
-				key: 'isAuthenticated',
-				value: 'false',
-			});
+			this.logoutStore();
 
 			// this.$router.push({ name: 'tabs/forum', params: { topicId } })
 			this.$router.push('/login');
 		},
+		...mapMutations('auth', {
+			logoutStore: 'logout'
+		})
 	},
 });
 </script>
